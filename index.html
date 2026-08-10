@@ -160,6 +160,8 @@
 
     <script>
         const tg = window.Telegram.WebApp;
+        
+        tg.ready();
         tg.expand();
         
         const user = tg.initDataUnsafe?.user;
@@ -175,7 +177,9 @@
                 item_name: name,
                 item_price: price
             };
+            
             tg.sendData(JSON.stringify(orderData));
+            tg.showAlert('✅ Товар отправлен в бота!');
         }
     </script>
 </body>
