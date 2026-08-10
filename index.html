@@ -6,11 +6,7 @@
     <title>Маркет PROGG</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: #0d0d0d;
@@ -59,14 +55,8 @@
             border-radius: 12px;
             padding: 15px;
             text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
         }
-        .card:active {
-            border-color: #00ff66;
-            transform: scale(0.97);
-            box-shadow: 0 0 20px rgba(0,255,102,0.2);
-        }
+        .card:active { border-color: #00ff66; }
         .card-name {
             font-size: 14px;
             font-weight: bold;
@@ -82,7 +72,6 @@
             color: #00ff66;
             font-weight: bold;
             margin-bottom: 12px;
-            text-shadow: 0 0 10px rgba(0,255,102,0.3);
         }
         .btn-buy {
             background: #00ff66;
@@ -94,14 +83,8 @@
             font-size: 14px;
             cursor: pointer;
             width: 100%;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
-        .btn-buy:active {
-            background: #00cc52;
-            transform: scale(0.95);
-        }
+        .btn-buy:active { background: #00cc52; }
         .card img {
             width: 100%;
             border-radius: 8px;
@@ -115,26 +98,24 @@
         <h1>🛒 МАРКЕТ PROGG</h1>
     </div>
     
-    <div class="user-info" id="user-display">
-        Загрузка профиля сотрудника...
-    </div>
+    <div class="user-info" id="user-display">Загрузка...</div>
 
     <div class="category-title">🍺 Меню Бара</div>
     <div class="grid">
         <div class="card">
             <div class="card-name">🥔 Чипсы в ассортименте</div>
             <div class="card-price">120 баллов</div>
-            <button class="btn-buy" onclick="buyItem('chips', '🥔 Чипсы в ассортименте', 120)">Взять</button>
+            <button class="btn-buy" onclick="buyItem('chips', '🥔 Чипсы', 120)">Взять</button>
         </div>
         <div class="card">
             <div class="card-name">🍫 Chocolate батончик</div>
             <div class="card-price">80 баллов</div>
-            <button class="btn-buy" onclick="buyItem('chocolate', '🍫 Шоколадный батончик', 80)">Взять</button>
+            <button class="btn-buy" onclick="buyItem('chocolate', '🍫 Шоколад', 80)">Взять</button>
         </div>
         <div class="card">
-            <div class="card-name">💧 Чистая вода (б/г)</div>
+            <div class="card-name">💧 Чистая вода</div>
             <div class="card-price">50 баллов</div>
-            <button class="btn-buy" onclick="buyItem('water', '💧 Чистая вода (без газа)', 50)">Взять</button>
+            <button class="btn-buy" onclick="buyItem('water', '💧 Вода', 50)">Взять</button>
         </div>
     </div>
 
@@ -142,52 +123,34 @@
     <div class="grid">
         <div class="card">
             <img src="https://raw.githubusercontent.com/ukule1e/progg-markett/main/monster%20nitro.png" alt="Энергетик">
-            <div class="card-name">⚡️ Энергетик PROGG ENERGY</div>
+            <div class="card-name">⚡️ Энергетик</div>
             <div class="card-price">180 баллов</div>
-            <button class="btn-buy" onclick="buyItem('energy', '⚡️ Энергетический напиток', 180)">Взять</button>
+            <button class="btn-buy" onclick="buyItem('energy', '⚡️ Энергетик', 180)">Взять</button>
         </div>
         <div class="card">
-            <div class="card-name">🧋 Холодный чай (Lipton/Fuze)</div>
+            <div class="card-name">🧋 Холодный чай</div>
             <div class="card-price">110 баллов</div>
-            <button class="btn-buy" onclick="buyItem('cold_tea', '🧋 Холодный чай (Lipton/Fuze)', 110)">Взять</button>
+            <button class="btn-buy" onclick="buyItem('cold_tea', '🧋 Чай', 110)">Взять</button>
         </div>
         <div class="card">
-            <div class="card-name">🥤 Газировка в банке</div>
+            <div class="card-name">🥤 Газировка</div>
             <div class="card-price">100 баллов</div>
-            <button class="btn-buy" onclick="buyItem('soda', '🥤 Газировка в банке', 100)">Взять</button>
+            <button class="btn-buy" onclick="buyItem('soda', '🥤 Газировка', 100)">Взять</button>
         </div>
     </div>
 
     <script>
-    const tg = window.Telegram.WebApp;
-    
-    tg.ready();
-    tg.expand();
-    
-    const user = tg.initDataUnsafe?.user;
-    if (user) {
-        document.getElementById('user-display').innerText = '👤 Сотрудник: @' + (user.username || user.first_name);
-    } else {
-        document.getElementById('user-display').innerText = '👤 Режим покупок активирован';
-    }
-    
-    function buyItem(id, name, price) {
-        const orderData = {
-            item_id: id,
-            item_name: name,
-            item_price: price
-        };
+        Telegram.WebApp.ready();
+        Telegram.WebApp.expand();
         
-        const jsonString = JSON.stringify(orderData);
-        
-        // Пробуем отправить и закрыть
-        tg.sendData(jsonString);
-        
-        // Ждём немного и закрываем
-        setTimeout(function() {
-            tg.close();
-        }, 500);
-    }
-</script>
+        function buyItem(id, name, price) {
+            Telegram.WebApp.sendData(JSON.stringify({
+                item_id: id,
+                item_name: name,
+                item_price: price
+            }));
+            Telegram.WebApp.close();
+        }
+    </script>
 </body>
 </html>
