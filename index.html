@@ -159,28 +159,35 @@
     </div>
 
     <script>
-        const tg = window.Telegram.WebApp;
+    const tg = window.Telegram.WebApp;
+    
+    tg.ready();
+    tg.expand();
+    
+    const user = tg.initDataUnsafe?.user;
+    if (user) {
+        document.getElementById('user-display').innerText = '👤 Сотрудник: @' + (user.username || user.first_name);
+    } else {
+        document.getElementById('user-display').innerText = '👤 Режим покупок активирован';
+    }
+    
+    function buyItem(id, name, price) {
+        const orderData = {
+            item_id: id,
+            item_name: name,
+            item_price: price
+        };
         
-        tg.ready();
-        tg.expand();
+        const jsonString = JSON.stringify(orderData);
         
-        const user = tg.initDataUnsafe?.user;
-        if (user) {
-            document.getElementById('user-display').innerText = '👤 Сотрудник: @' + (user.username || user.first_name);
-        } else {
-            document.getElementById('user-display').innerText = '👤 Режим покупок активирован';
-        }
+        // Пробуем отправить и закрыть
+        tg.sendData(jsonString);
         
-        function buyItem(id, name, price) {
-            const orderData = {
-                item_id: id,
-                item_name: name,
-                item_price: price
-            };
-            
-            tg.sendData(JSON.stringify(orderData));
-            tg.showAlert('✅ Товар отправлен в бота!');
-        }
-    </script>
+        // Ждём немного и закрываем
+        setTimeout(function() {
+            tg.close();
+        }, 500);
+    }
+</script>
 </body>
 </html>
