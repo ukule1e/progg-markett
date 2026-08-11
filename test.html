@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <h1>Тест</h1>
+    <button onclick="Telegram.WebApp.sendData(JSON.stringify({test: 'ok', price: 100}))" style="padding:20px;font-size:20px;">КУПИТЬ (100 баллов)</button>
+    <script>Telegram.WebApp.ready()</script>
+</body>
+</html>
